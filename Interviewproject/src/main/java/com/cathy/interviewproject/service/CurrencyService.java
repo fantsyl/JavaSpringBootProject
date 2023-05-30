@@ -49,7 +49,7 @@ public class CurrencyService {
         currencyRepository.deleteById(currency);
     }
 
-    public List<CurrencyDTO> getCoinDeskJsonToDB() throws IOException, ParseException {
+    public List<CurrencyDTO> createCoinDeskJsonToDB() throws IOException, ParseException {
         CoinDeskDTO cdDTO = getJsonStrByUrl();
         Map<String, CoinDeskCurrencyDTO> map = cdDTO.getBpi();
         List<CurrencyDTO> dtos = new ArrayList<>();
@@ -114,4 +114,5 @@ public class CurrencyService {
         reader.close();
         return dto;
     }
+
 }
