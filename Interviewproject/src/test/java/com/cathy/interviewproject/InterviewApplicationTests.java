@@ -72,7 +72,7 @@ class InterviewApplicationTests {
     public void delete() {
         String currency = "JPY";
         currencyController.delete(currency);
-        ResponseEntity<?> res = currencyController.getById("JPY");
+        ResponseEntity<?> res = currencyController.getById(currency);
         assertNull(res.getBody());
     }
     @Test
