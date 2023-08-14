@@ -6,10 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -45,5 +43,17 @@ private final GetCurrencyResponse getCurrencyResponse;
             );
         }
         return GetCurrencyResponse.builder().currencyList(currencyList).build();
+    }
+    private List<String> getAllAvailableFxCurrencies() {
+        Set<String> result = new HashSet<>();
+        // 取codebook by CodeType='FXCurrency'
+        List<CodeBook> codeBooks = codeBookForexSettingsPersistence.findAllFxCurrencySortByOrdinalAsc();
+        codeBooks.forEach(data -> {
+            // 撈出CodeBook CodeId為幣別縮寫, ex: USD/EUR , *注意需排除TWD幣別
+            if (!data.getCodeId().equalsIgnoreCase("TWD")) {
+                result.add(data.getCodeId());
+            }
+        });
+        return new ArrayList<>(result).stream().distinct().collect(Collectors.toList());
     }
 }
